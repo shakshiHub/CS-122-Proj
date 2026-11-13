@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Spartan Marketplace{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">Spartan <span>Marketplace</span></a>
+
+      <nav class="main-nav">
+        <a href="/">Browse</a>
+        <a href="/sell">Sell an Item</a>
+      </nav>
+
+      <nav class="account-nav">
+        <a href="/login">Log In</a>
+        <a href="/signup" class="btn btn-gold">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>Spartan Marketplace</strong> — buy and sell with the SJSU community.</p>
+    <p>Payment and pickup are arranged directly with the seller. Meet in a public place on campus.</p>
+  </footer>
+
+</body>
+</html>

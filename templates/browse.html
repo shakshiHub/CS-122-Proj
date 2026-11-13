@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Browse | Spartan Marketplace{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <h1>Find what you need from fellow Spartans</h1>
+  <form method="get" action="/" class="search-bar">
+    <input type="text" name="q" placeholder="Search for textbooks, furniture, electronics..."
+           value="{{ filters.get('q', '') }}">
+    <button type="submit" class="btn btn-gold">Search</button>
+  </form>
+</section>
+
+<div class="browse-layout">
+
+  <!-- Filters sidebar -->
+  <aside class="filters">
+    <h2>Filters</h2>
+    <form method="get" action="/">
+      <input type="hidden" name="q" value="{{ filters.get('q', '') }}">
+
+      <label for="category">Category</label>
+      <select name="category" id="category">
+        <option value="">All categories</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if filters.get('category') == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="condition">Condition</label>
+      <select name="condition" id="condition">
+        <option value="">Any condition</option>
+        {% for c in conditions %}
+          <option value="{{ c }}" {% if filters.get('condition') == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Price</label>
+      <div class="price-row">
+        <input type="number" name="min_price" placeholder="Min" min="0" step="0.01"
+               value="{{ filters.get('min_price', '') }}">
+        <span>to</span>
+        <input type="number" name="max_price" placeholder="Max" min="0" step="0.01"
+               value="{{ filters.get('max_price', '') }}">
+      </div>
+
+      <label for="sort">Sort by</label>
+      <select name="sort" id="sort">
+        <option value="newest" {% if filters.get('sort') == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="price_low" {% if filters.get('sort') == 'price_low' %}selected{% endif %}>Price: low to high</option>
+        <option value="price_high" {% if filters.get('sort') == 'price_high' %}selected{% endif %}>Price: high to low</option>
+      </select>
+
+      <button type="submit" class="btn btn-blue full-width">Apply filters</button>
+      <a href="/" class="clear-link">Clear all</a>
+    </form>
+  </aside>
+
+  <!-- Listing grid -->
+  <section class="results">
+    <p class="result-count">{{ listings|length }} item{{ '' if listings|length == 1 else 's' }} available</p>
+
+    {% if listings %}
+      <div class="grid">
+        {% for item in listings %}
+          <a href="/listing/{{ item.id }}" class="card">
+            {% if item.photo %}
+              <img src="{{ url_for('static', filename='uploads/' ~ item.photo) }}" alt="{{ item.title }}">
+            {% else %}
+              <div class="no-photo">No photo</div>
+            {% endif %}
+            <div class="card-body">
+              <p class="price">${{ "%.2f"|format(item.price) }}</p>
+              <h3>{{ item.title }}</h3>
+              <p class="meta">{{ item.category }}{% if item.condition %} · {{ item.condition }}{% endif %}</p>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <h3>No items found</h3>
+        <p>Try a different search or <a href="/">clear your filters</a>.</p>
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+
+{% endblock %}
