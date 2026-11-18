@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 marketplace.db
 .DS_Store
+.env
