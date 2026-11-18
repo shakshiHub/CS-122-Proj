@@ -305,3 +305,53 @@ a { color: var(--blue); }
     padding: 18px;
   }
 }
+
+/* Account forms */
+.auth-panel {
+  max-width: 460px;
+  margin: 24px auto;
+  padding: 28px;
+  background: white;
+  border-radius: 10px;
+}
+
+.auth-panel h1 {
+  color: var(--blue);
+}
+
+.auth-panel label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 600;
+}
+
+.auth-panel input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.auth-panel button {
+  margin-top: 20px;
+}
+
+.form-error {
+  color: #a11919;
+}
+
+.account-email {
+  color: white;
+  overflow-wrap: anywhere;
+}
+
+.account-nav form {
+  margin: 0;
+}
+
+.verification-notice {
+  padding: 14px;
+  background: #fff3cd;
+  border-radius: 6px;
+}

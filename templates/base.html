@@ -18,13 +18,27 @@
       </nav>
 
       <nav class="account-nav">
-        <a href="/login">Log In</a>
-        <a href="/signup" class="btn btn-gold">Sign Up</a>
+        {% if g.user %}
+          <span class="account-email">{{ g.user.email }}</span>
+
+          <form method="post" action="{{ url_for('logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-gold">Log Out</button>
+          </form>
+        {% else %}
+          <a href="{{ url_for('login') }}">Log In</a>
+          <a href="{{ url_for('signup') }}" class="btn btn-gold">Sign Up</a>
+        {% endif %}
       </nav>
     </div>
   </header>
 
   <main class="container">
+    {% if g.user and not g.user.is_verified %}
+      <p class="verification-notice">
+        Your account is awaiting email verification.
+      </p>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 
