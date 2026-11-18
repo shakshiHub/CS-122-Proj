@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 
 app = Flask(__name__)
 
@@ -78,6 +78,22 @@ def browse():
         filters=request.args,
     )
 
+@app.route("/listing/<int:listing_id>")
+def listing_detail(listing_id):
+    conn = get_db()
 
+    try:
+        listing = conn.execute(
+            "SELECT * FROM listings WHERE id = ?",
+            (listing_id,),
+        ).fetchone()
+    finally:
+        conn.close()
+
+    if listing is None:
+        abort(404)
+
+    return render_template("listing_detail.html", listing=listing)
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

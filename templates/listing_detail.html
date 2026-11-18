@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ listing.title }} | Spartan Marketplace{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('browse') }}" class="back-link">
+  &larr; Back to Browse
+</a>
+
+<article class="listing-detail">
+  <div class="detail-image">
+    {% if listing.photo %}
+      <img
+        src="{{ url_for('static', filename='uploads/' ~ listing.photo) }}"
+        alt="{{ listing.title }}"
+      >
+    {% else %}
+      <div class="detail-no-photo">No photo available</div>
+    {% endif %}
+  </div>
+
+  <div class="detail-info">
+    <p class="availability">
+      {{ "Available" if listing.is_available else "Sold" }}
+    </p>
+
+    <h1>{{ listing.title }}</h1>
+    <p class="detail-price">${{ "%.2f"|format(listing.price) }}</p>
+
+    <dl class="detail-facts">
+      <dt>Category</dt>
+      <dd>{{ listing.category }}</dd>
+
+      <dt>Condition</dt>
+      <dd>{{ listing.condition or "Not specified" }}</dd>
+    </dl>
+
+    <h2>Description</h2>
+    <p class="detail-description">{{ listing.description or "No description provided." }}</p>
+
+    {% if listing.is_available %}
+      <section class="seller-contact">
+        <h2>Contact the seller</h2>
+        <p class="contact-value">{{ listing.contact_info }}</p>
+        <p>Contact the seller directly to arrange payment and pickup.</p>
+      </section>
+    {% else %}
+      <p>This item has been sold.</p>
+    {% endif %}
+  </div>
+</article>
+{% endblock %}
